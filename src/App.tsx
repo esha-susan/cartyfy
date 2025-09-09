@@ -1,5 +1,6 @@
 import React, { useState } from 'react'; // React and useState hook
 import './App.css'; // Styles for App
+import Header from './components/Header/Header';
 
 
 // Define a type for tabs: either 'optimizer' or 'history'
@@ -43,13 +44,8 @@ function App() {
   return (
     <div className="App">
       
-      <header>
-        <button onClick={() => handleTabChange('optimizer')}>Optimizer</button>
-        <button onClick={() => handleTabChange('history')}>History</button>
-      </header>
-
-      
-      {renderActiveTab()}
+    <Header activeTab={activeTab} onTabChange={handleTabChange}/>
+    {renderActiveTab()}
     </div>
   );
 }
