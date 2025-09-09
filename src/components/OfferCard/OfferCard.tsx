@@ -3,12 +3,13 @@ import './OfferCard.css';
 import {Star,MapPin,Clock,Package} from'lucide-react';
 import {Offer} from '@/types/interfaces';
 
+//props definition
 interface OfferCardProps{
     offer:Offer;
     onSelect?:(offer:Offer)=>void;
     isSelected?:boolean;
 }
-
+//component definition
 const OfferCard:React.FC<OfferCardProps>=({
     offer,onSelect,
     isSelected=false
