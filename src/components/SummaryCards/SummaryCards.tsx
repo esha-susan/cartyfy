@@ -1,6 +1,6 @@
 import React from 'react';
 import { TrendingDown, MapPin, Clock, ShoppingBag } from 'lucide-react';
-import './SummaryCards.css';
+
 
 interface SummaryCardsProps {
   totalSavings: number;

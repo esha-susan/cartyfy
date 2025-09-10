@@ -1,53 +1,46 @@
-import React, { useState } from 'react'; // React and useState hook
-import './App.css'; // Styles for App
-import Header from './components/Header/Header';
+import React from "react";
+import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
+import Layout from "@/pages/Layout/Layout";
+import Optimizer from "@/pages/Optimizer/Optimizer";
+import History from "@/pages/History/History";
+import { GroceryItem } from "@/types/interfaces";
 
-
-// Define a type for tabs: either 'optimizer' or 'history'
-// This helps TypeScript check we only use valid tab names
-type ActiveTab = 'optimizer' | 'history';
-
-function App() {
-  // State to keep track of which tab is currently active
-  // Initial tab is set to 'optimizer'
-  const [activeTab, setActiveTab] = useState<ActiveTab>('optimizer');
-
-  // Minimal grocery list state
-  const [groceryList, setGroceryList] = useState([
-    { id: '1', name: 'Rice', quantity: '1', unit: 'kg' },
-    { id: '2', name: 'Milk', quantity: '1', unit: 'L' }
+const App: React.FC = () => {
+  const [groceryList, setGroceryList] = React.useState<GroceryItem[]>([
+    { id: "1", name: "Rice", quantity: "1", unit: "kg" },
+    { id: "2", name: "Milk", quantity: "1", unit: "L" },
   ]);
- // Function to change the active tab
-  // It updates the activeTab state
-  const handleTabChange = (tab: ActiveTab) => {
-    setActiveTab(tab);
-  };
 
-  // Update grocery list (placeholder function)
-  const handleGroceryListUpdate = (newList: typeof groceryList) => {
-    setGroceryList(newList);
-  };
-
-
-  // Function to decide what content to show based on the active tab
-  const renderActiveTab=()=>{
-    switch(activeTab){
-      case'optimizer':
-       return<div>Optimiser Tab content</div>
-      case 'history':
-        return <div>History Tab content</div>
-      default:
-        return <div>Optimiser Tab Content</div>
-    }
-  };
+  const location = useLocation();
+  const initialTab: 'optimizer' | 'history' = location.pathname === "/history" ? 'history' : 'optimizer';
+  const [activeTab, setActiveTab] = React.useState<'optimizer' | 'history'>(initialTab);
 
   return (
-    <div className="App">
-      
-    <Header activeTab={activeTab} onTabChange={handleTabChange}/>
-    {renderActiveTab()}
-    </div>
+    <Routes>
+      <Route
+        path="/"
+        element={<Layout activeTab={activeTab} onTabChange={setActiveTab} />}
+      >
+        <Route
+          index
+          element={
+            <Optimizer
+              groceryList={groceryList}
+              onGroceryListUpdate={setGroceryList}
+            />
+          }
+        />
+        <Route path="history" element={<History />} />
+      </Route>
+    </Routes>
   );
-}
+};
 
-export default App; //Export app to import it in main.tsx
+// Wrap App in Router at root
+const AppWrapper: React.FC = () => (
+  <Router>
+    <App />
+  </Router>
+);
+
+export default AppWrapper;

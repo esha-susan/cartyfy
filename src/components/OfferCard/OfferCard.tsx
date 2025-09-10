@@ -1,5 +1,5 @@
 import React from 'react';
-import './OfferCard.css';
+
 import {Star,MapPin,Clock,Package} from'lucide-react';
 import {Offer} from '@/types/interfaces';
 
